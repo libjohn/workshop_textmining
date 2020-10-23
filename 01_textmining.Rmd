@@ -214,6 +214,7 @@ matchwords_books %>%
              backgroundColor = "salmon")
 
 ```
+
 ### Simpler
 
 Below is a non-interactive word cloud.
