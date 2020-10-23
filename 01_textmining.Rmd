@@ -1,0 +1,325 @@
+---
+title: "Refamiliarize with Silge"
+author: "John Little"
+date: "`r Sys.Date()`"
+abstract: "SA = algorithmicly mapping the emotion or opinion of a text.\n\n"
+output: html_notebook
+---
+
+Much of this review comes from the site:  https://juliasilge.github.io/tidytext/
+
+The primary library packages that makes this work is `tidytext`
+
+See Also this helpful free online book: [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com/) by Silge and Robinson
+
+```{r}
+library(janeaustenr)
+library(tidyverse)
+library(tidytext)
+library(wordcloud2)
+```
+
+## Data
+
+We'll look at some books by [Jane Austen](https://en.wikipedia.org/wiki/Jane_Austen), an 18th century novelist who explored the roles of women and marriage relating to the British upper class.  The works have been consistently discussed and honored. Austen has a unique and well earned following within literature.  Her works are the source of many film and written adaptations up to the present day.  Through the `janeaustenr` package we can access and mine the text of six Austen novels.  We can call the collection of novels a corpra.  We will call an individual novel a corpus.
+
+```{r}
+austen_books()
+```
+
+```{r}
+austen_books() %>% 
+  distinct(book)
+```
+
+## Data Cleaning
+
+You will do a lot of data cleaning.  In this case, we have started with the `janeaustenr` collection which has already been cleaned.  Nonetheless, some further data wrangling will be required.  First, identifying a line number for each line of text in each book.
+
+
+## Identify line numbers
+
+```{r}
+original_books <- austen_books() %>%
+  group_by(book) %>%
+  mutate(line = row_number()) %>%
+  ungroup()
+
+original_books
+```
+
+## Tokens
+
+To work with these data as a **tidy** dataset, we need to restructure the data through _tokenization_.  In our case a token is a single word.  We want **one-token-per-row**. The `unnest_tokens()` function is a way to convert a data frame with a text column into the one-token-per-row format.
+
+**Token**  
+**Tokenization**  
+[defined](https://www.techopedia.com/definition/13698/tokenization)  
+
+- The default tokenizing is "words"
+
+For `unnest_tokens()`, Tokens can be:  **words**, characters, character_shingles, **ngrams**, skip_ngrams, **sentences**, lines, paragraphs, regex, tweets, and ptb (Penn Treebank). 
+
+- Group by **line number**
+- each single word is a token
+
+
+```{r}
+tidy_books <- original_books %>%
+  unnest_tokens(word, text)
+
+tidy_books
+```
+
+
+> Now that the data is in one-word-per-row format, we can manipulate it with tidy tools like dplyr.
+
+
+## Stop Words
+
+`tidytext::get_stopwords()`
+
+Remove stop-words from the books.
+
+```{r}
+matchwords_books <- tidy_books %>%
+  anti_join(get_stopwords())
+
+matchwords_books
+```
+
+### Join types
+
+![](https://pbs.twimg.com/media/B6eUTTACUAAahLf.png "Dplyr Join Diagram")
+
+### Customize your dictionaries
+
+(Customize stop-words data frames, sentiment data frames, etc.)
+
+There are various _stop words_ dictionaries.  Here we add the stop word, "farfegnugen" to a custom dictionary.  If Jane Austen ever used the word "farfegnugen" that would be weird, or bad.  And so, we will take special pains not calculate the sentiment of that word - whether or not the term shows up in a sentiment dictionary.
+
+```{r}
+stop_words %>% 
+  count(lexicon)
+
+stopwords_custom <- tribble(~word, ~lexicon,
+                            "farfegnugen", "custom")
+
+stopwords_custom
+
+bind_rows(get_stopwords(), stopwords_custom)    # The default is "snowball"
+
+```
+
+How many Austen countable words are there if we remove _snowball_ stop-words?
+
+```{r}
+matchwords_books %>%
+  count(word, sort = TRUE) 
+```
+
+## Sentiment Analysis
+
+`get_sentiments()`
+
+Let's see what positive words exist in the bing dictionary.  Then, count the frequency of those positive words that exist in _Emma_.
+
+```{r}
+positive <- get_sentiments("bing") %>%
+  filter(sentiment == "positive")                    # get POSITIVE words
+
+positive 
+
+tidy_books %>%
+  filter(book == "Emma") %>%                        # only the book _emma_
+  semi_join(positive) %>%                           # semi_join()
+  count(word, sort = TRUE)
+```
+
+### prep: Viz sentiment
+
+Match all the Austen books to the bing sentiment dictionary.  Count the word frequncy.
+
+```{r}
+tidy_books %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(book)
+```
+
+### Calculate sentiment
+
+> **ALGO:** sentiment = positive - negative
+
+```{r}
+bing <- get_sentiments("bing")
+
+janeaustensentiment <- tidy_books %>% 
+  inner_join(bing) %>% 
+  count(book, index = line %/% 80, sentiment) %>%                          # `%/%` = int division ; 80 lines / section
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>%    # spread(sentiment, n, fill = 0)
+  mutate(sentiment = positive - negative)                                      # ALGO!!!
+  
+janeaustensentiment
+```
+
+### Viz it
+
+```{r}
+janeaustensentiment %>%
+  ggplot(aes(index, sentiment, )) +
+  geom_bar(stat = "identity", show.legend = FALSE, fill = "cadetblue") +
+  geom_bar(data = . %>% filter(sentiment < 0), stat = "identity", show.legend = FALSE, fill = "firebrick") +
+  geom_hline(yintercept = 0, color = "goldenrod") +
+  facet_wrap( ~ book, ncol = 2, scales = "free_x") 
+```
+
+
+### prep: Most common pos and neg words
+
+
+```{r}
+bing_word_counts <- tidy_books %>%
+  inner_join(bing) %>%
+  count(word, sentiment, sort = TRUE)
+
+bing_word_counts
+```
+
+### Viz it too
+
+```{r fig.height=7, fig.width=10}
+bing_word_counts %>%
+  filter(n > 170) %>%
+  mutate(n = if_else(sentiment == "negative", - n, n)) %>%
+  ggplot(aes(fct_reorder(str_to_title(word), n), n, fill = str_to_title(sentiment))) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_brewer(type = "qual") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  labs(title = "Frequency of popular positive and negative words",
+       subtitle = "Jane Austen novels",
+       y = "Compound sentiment score", x = "Word",
+       fill = "Sentiment", caption = "Source: library(janeaustenr)") +
+  theme(plot.title.position = "plot")
+```
+
+
+## Word clouds
+
+```{r fig.width=10}
+matchwords_books %>%
+  count(word, sort = TRUE) %>%
+  wordcloud2(size = .4, shape = 'triangle-forward', 
+             color = c("steelblue", "firebrick", "darkorchid"), 
+             backgroundColor = "salmon")
+
+```
+### Simpler
+
+Below is a non-interactive word cloud.
+
+```{r fig.height=8, fig.width=8}
+matchwords_books %>%
+  count(word) %>%
+  with(wordcloud::wordcloud(word, n, max.words = 100))
+```
+
+
+## Dictionaries
+
+What other dictionaries are available?  How to choose?
+
+- [Without Dictiionaries there is no sentiment analysis](http://www.thinkingondata.com/without-dictionaries-no-sentiment-analysis/)
+- [Sentiment Analysis: Analyzing Lexicon Quality and Estimation Errors](https://paulvanderlaken.com/2017/12/27/sentiment-analysis-lexicon-quality/)
+- [Limits of the Bing, AFINN, and NRC Lexicons with the Tidytext Package in R](https://hoyeolkim.wordpress.com/2018/02/25/the-limits-of-the-bing-afinn-and-nrc-lexicons-with-the-tidytext-package-in-r/)
+- [Case Study with Harry Potter](https://afit-r.github.io/sentiment_analysis)
+
+```{r}
+head(get_sentiments("bing"))
+head(get_sentiments("loughran"))
+head(get_sentiments("nrc"))
+head(get_sentiments("afinn"))
+
+get_sentiments("nrc") %>% 
+  count(sentiment, sort = TRUE)
+
+```
+
+## Afinn
+
+
+What words in _Emma_ match the AFINN dictionary?
+
+```{r}
+emma_afinn <- tidy_books %>%
+  filter(book == "Emma") %>% 
+  anti_join(get_stopwords()) %>% 
+  inner_join(get_sentiments("afinn"))
+
+emma_afinn
+```
+
+
+```{r}
+emma_afinn %>% 
+  count(word, sort = TRUE)
+```
+
+
+### make sections
+
+Make sections of 80 words. Calculate sentiment.  
+
+```{r}
+emma_afinn_sentiment <- emma_afinn %>% 
+  mutate(word_count = 1:n(),
+         index = word_count %/% 80) %>% 
+  group_by(index) %>% 
+  summarise(sentiment = sum(value))           ## ALGO sum each Afinn score in the 80 word section
+
+emma_afinn_sentiment
+
+```
+
+### Viz it
+
+```{r}
+emma_afinn %>% 
+  mutate(word_count = 1:n(),
+         index = word_count %/% 80) %>% 
+  filter(index == 104) %>% 
+  count(word, sort = TRUE) %>%
+  wordcloud2(size = .4, shape = 'diamond', 
+             backgroundColor = "darkseagreen")
+
+```
+
+```{r}
+emma_afinn_sentiment %>% 
+  mutate(feeling = cut_number(sentiment, n = 7)) %>% # filter(sentiment > 0, str_detect(feeling, "27"))
+  ggplot(aes(index, sentiment)) +
+  geom_col(aes(fill = feeling)) +
+  geom_col(data = . %>% filter(sentiment > 0, str_detect(feeling, "27")), fill = "lightsalmon") +
+  geom_hline(yintercept = 0, color = "forestgreen") +
+  scale_fill_brewer(palette = "RdBu", guide = FALSE) +
+  theme(panel.background = element_rect(fill = "grey"),
+        plot.background = element_rect(fill = "grey"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  labs(title = "Afinn Sentiment Analysis of Emma")
+```
+
+
+```{r}
+emma_afinn %>%
+  mutate(word_count = 1:n(),
+         index = as.character(word_count %/% 80)) %>%
+  filter(index == 10 | index == 104 | index == 105) %>% 
+  ggplot(aes(value, index)) +
+  geom_boxplot() +
+  # geom_boxplot(notch = TRUE) +
+  geom_jitter() +
+  coord_flip() +
+  labs(y = "section", x = "Afinn")
+```
+
