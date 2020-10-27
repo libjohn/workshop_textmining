@@ -1,6 +1,6 @@
 README
 ================
-2020-10-23
+2020-10-27
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -33,9 +33,14 @@ README
 
 ### Resources
 
-  - Tidytext package
-  - Text Mining Books
-  - Data Wrangling with dplyr
-  - Data Visualization with ggplot2
+  - [Tidytext package](https://juliasilge.github.io/tidytext/)
+  - Book: [Text Mining with R](https://www.tidytextmining.com/) by Silge
+    and Robinson
+  - Data Wrangling with dplyr:
+    ([video](https://juliasilge.github.io/tidytext/) |
+    [workshop](https://rfun.library.duke.edu/portfolio/r_flipped/))
+  - Data Visualization with ggplot2:
+    ([video](https://warpwire.duke.edu/w/80YEAA/) |
+    [workshop](https://rfun.library.duke.edu/portfolio/ggplot_workshop/))
 
 ![Word Cloud](images/word_cloud.PNG "Word Cloud")

@@ -21,11 +21,13 @@ library(wordcloud2)
 
 ## Data
 
-We'll look at some books by [Jane Austen](https://en.wikipedia.org/wiki/Jane_Austen), an 18th century novelist who explored the roles of women and marriage relating to the British upper class.  The works have been consistently discussed and honored. Austen has a unique and well earned following within literature.  Her works are the source of many film and written adaptations up to the present day.  Through the `janeaustenr` package we can access and mine the text of six Austen novels.  We can call the collection of novels a corpra.  We will call an individual novel a corpus.
+We'll look at some books by [Jane Austen](https://en.wikipedia.org/wiki/Jane_Austen), an 18th century novelist explored women and marriage within the British upper class.  Austen has a unique and well earned following within literature. Her works is consistently discussed and honored. To this day, Austen's novels are the source of many adaptations, written and on-screen.  Through the `janeaustenr` package we can access and mine the text of six Austen novels.  We can call the collection of novels a corpra.  An individual novel is a corpus.
 
 ```{r}
 austen_books()
 ```
+
+Austen is best know for six published works:
 
 ```{r}
 austen_books() %>% 
@@ -34,7 +36,7 @@ austen_books() %>%
 
 ## Data Cleaning
 
-You will do a lot of data cleaning.  In this case, we have started with the `janeaustenr` collection which has already been cleaned.  Nonetheless, some further data wrangling will be required.  First, identifying a line number for each line of text in each book.
+Text mining typically requires a lot of data cleaning.  In this case, we start with the `janeaustenr` collection that has already been cleaned.  Nonetheless, further data wrangling is required.  First, identifying a line number for each line of text in each book.
 
 
 ## Identify line numbers
@@ -42,7 +44,7 @@ You will do a lot of data cleaning.  In this case, we have started with the `jan
 ```{r}
 original_books <- austen_books() %>%
   group_by(book) %>%
-  mutate(line = row_number()) %>%
+  mutate(line = row_number()) %>%         # identify line numbers
   ungroup()
 
 original_books
@@ -50,18 +52,17 @@ original_books
 
 ## Tokens
 
-To work with these data as a **tidy** dataset, we need to restructure the data through _tokenization_.  In our case a token is a single word.  We want **one-token-per-row**. The `unnest_tokens()` function is a way to convert a data frame with a text column into the one-token-per-row format.
+To work with these data as a **tidy** dataset, we need to restructure the data through _tokenization_.  In our case a token is a single word.  We want **one-token-per-row**. The `unnest_tokens()` function (tidytext package) will convert a data frame with a text column into the one-token-per-row format.
 
 **Token**  
 **Tokenization**  
 [defined](https://www.techopedia.com/definition/13698/tokenization)  
 
-- The default tokenizing is "words"
+The default tokenizing moded is "words". With the `unnest_tokens()` function, tokens can be:  **words**, characters, character_shingles, **ngrams**, skip_ngrams, **sentences**, lines, paragraphs, regex, tweets, and ptb (Penn Treebank). 
 
-For `unnest_tokens()`, Tokens can be:  **words**, characters, character_shingles, **ngrams**, skip_ngrams, **sentences**, lines, paragraphs, regex, tweets, and ptb (Penn Treebank). 
-
-- Group by **line number**
-- each single word is a token
+### Process
+1. Group by **line number** (above)
+2. Make each single word a token
 
 
 ```{r}
@@ -72,7 +73,7 @@ tidy_books
 ```
 
 
-> Now that the data is in one-word-per-row format, we can manipulate it with tidy tools like dplyr.
+> Now that the data is in the one-word-per-row format, we can manipulate it with tidy tools like dplyr.
 
 
 ## Stop Words
@@ -94,29 +95,54 @@ matchwords_books
 
 ### Customize your dictionaries
 
-(Customize stop-words data frames, sentiment data frames, etc.)
+You can customize stop-words data frames, sentiment data frames, etc.
 
-There are various _stop words_ dictionaries.  Here we add the stop word, "farfegnugen" to a custom dictionary.  If Jane Austen ever used the word "farfegnugen" that would be weird, or bad.  And so, we will take special pains not calculate the sentiment of that word - whether or not the term shows up in a sentiment dictionary.
+There are various _stop words_ dictionaries.  Here we add the stop word, "farfegnugen" to a custom dictionary.  If Jane Austen ever used the word "farfegnugen" that would be weird, or bad.  So we will take pains to not calculate the sentiment of that word - whether or not the term shows up in a sentiment dictionary.  That is, we will remove the word by making it a part of a customized stop-words dictionary.
 
 ```{r}
-stop_words %>% 
-  count(lexicon)
+stopwords::stopwords_getsources()
+stopwords::stopwords_getlanguages("snowball")
 
 stopwords_custom <- tribble(~word, ~lexicon,
                             "farfegnugen", "custom")
 
 stopwords_custom
 
+get_stopwords(source = "snowball")
+
 bind_rows(get_stopwords(), stopwords_custom)    # The default is "snowball"
 
 ```
 
-How many Austen countable words are there if we remove _snowball_ stop-words?
+How many Austen countable words are there if we remove _snowball_ stop-words?  There are `r library(magrittr); matchwords_books %>% distinct(word) %>% nrow()` countable words. 
 
 ```{r}
-matchwords_books %>%
+matchwords_books %>% 
+  # distinct(word)
   count(word, sort = TRUE) 
 ```
+
+## Word clouds
+
+```{r interactive word cloud, fig.width=10}
+matchwords_books %>%
+  count(word, sort = TRUE) %>%
+  wordcloud2(size = .4, shape = 'triangle-forward', 
+             color = c("steelblue", "firebrick", "darkorchid"), 
+             backgroundColor = "salmon")
+
+```
+
+### Basic word cloud
+
+A non-interactive word cloud.
+
+```{r basic word cloud, fig.height=8, fig.width=8}
+matchwords_books %>%
+  count(word) %>%
+  with(wordcloud::wordcloud(word, n, max.words = 100))
+```
+
 
 ## Sentiment Analysis
 
@@ -136,7 +162,7 @@ tidy_books %>%
   count(word, sort = TRUE)
 ```
 
-### prep: Viz sentiment
+### Prepare to visualize sentiment score
 
 Match all the Austen books to the bing sentiment dictionary.  Count the word frequncy.
 
@@ -148,9 +174,13 @@ tidy_books %>%
 
 ### Calculate sentiment
 
-> **ALGO:** sentiment = positive - negative
+> **Algorithim:** sentiment = positive - negative
 
-```{r}
+Define a section of text.  
+
+> "Small sections of text may not have enough words in them to get a good estimate of sentiment while really large sections can wash out narrative structure. For these books, using 80 lines works well, but this can vary depending on individual texts...  -- [Text Mining with R](https://www.tidytextmining.com/sentiment.html)  
+
+```{r echo=TRUE}
 bing <- get_sentiments("bing")
 
 janeaustensentiment <- tidy_books %>% 
@@ -164,7 +194,7 @@ janeaustensentiment
 
 ### Viz it
 
-```{r}
+```{r sentiment score}
 janeaustensentiment %>%
   ggplot(aes(index, sentiment, )) +
   geom_bar(stat = "identity", show.legend = FALSE, fill = "cadetblue") +
@@ -174,7 +204,7 @@ janeaustensentiment %>%
 ```
 
 
-### prep: Most common pos and neg words
+### Preparation: Most common positive and negative words
 
 
 ```{r}
@@ -187,7 +217,7 @@ bing_word_counts
 
 ### Viz it too
 
-```{r fig.height=7, fig.width=10}
+```{r positive and negative, fig.height=7, fig.width=10}
 bing_word_counts %>%
   filter(n > 170) %>%
   mutate(n = if_else(sentiment == "negative", - n, n)) %>%
@@ -201,28 +231,6 @@ bing_word_counts %>%
        y = "Compound sentiment score", x = "Word",
        fill = "Sentiment", caption = "Source: library(janeaustenr)") +
   theme(plot.title.position = "plot")
-```
-
-
-## Word clouds
-
-```{r fig.width=10}
-matchwords_books %>%
-  count(word, sort = TRUE) %>%
-  wordcloud2(size = .4, shape = 'triangle-forward', 
-             color = c("steelblue", "firebrick", "darkorchid"), 
-             backgroundColor = "salmon")
-
-```
-
-### Simpler
-
-Below is a non-interactive word cloud.
-
-```{r fig.height=8, fig.width=8}
-matchwords_books %>%
-  count(word) %>%
-  with(wordcloud::wordcloud(word, n, max.words = 100))
 ```
 
 
@@ -248,7 +256,6 @@ get_sentiments("nrc") %>%
 
 ## Afinn
 
-
 What words in _Emma_ match the AFINN dictionary?
 
 ```{r}
@@ -267,9 +274,9 @@ emma_afinn %>%
 ```
 
 
-### make sections
+### Make Sections
 
-Make sections of 80 words. Calculate sentiment.  
+Just as we calculated sentiment, above, make sections of 80 words then calculate sentiment.  
 
 ```{r}
 emma_afinn_sentiment <- emma_afinn %>% 
@@ -284,7 +291,7 @@ emma_afinn_sentiment
 
 ### Viz it
 
-```{r}
+```{r emma word cloud}
 emma_afinn %>% 
   mutate(word_count = 1:n(),
          index = word_count %/% 80) %>% 
@@ -295,13 +302,12 @@ emma_afinn %>%
 
 ```
 
-```{r}
+```{r emma afinn}
 emma_afinn_sentiment %>% 
-  mutate(feeling = cut_number(sentiment, n = 7)) %>% # filter(sentiment > 0, str_detect(feeling, "27"))
+  mutate(feeling = cut_interval(sentiment, n = 7)) %>% 
   ggplot(aes(index, sentiment)) +
   geom_col(aes(fill = feeling)) +
-  geom_col(data = . %>% filter(sentiment > 0, str_detect(feeling, "27")), fill = "lightsalmon") +
-  geom_hline(yintercept = 0, color = "forestgreen") +
+  geom_hline(yintercept = 0, color = "forestgreen", linetype = "dashed") +
   scale_fill_brewer(palette = "RdBu", guide = FALSE) +
   theme(panel.background = element_rect(fill = "grey"),
         plot.background = element_rect(fill = "grey"),
@@ -311,7 +317,7 @@ emma_afinn_sentiment %>%
 ```
 
 
-```{r}
+```{r emma boxplot of afinn}
 emma_afinn %>%
   mutate(word_count = 1:n(),
          index = as.character(word_count %/% 80)) %>%
@@ -323,4 +329,11 @@ emma_afinn %>%
   coord_flip() +
   labs(y = "section", x = "Afinn")
 ```
+
+## Resources
+
+- [Tidytext package](https://juliasilge.github.io/tidytext/)
+- Book:  [Text Mining with R](https://www.tidytextmining.com/) by Silge and Robinson
+- Data Wrangling with dplyr: ([video](https://juliasilge.github.io/tidytext/) | [workshop](https://rfun.library.duke.edu/portfolio/r_flipped/))
+- Data Visualization with ggplot2: ([video](https://warpwire.duke.edu/w/80YEAA/) | [workshop](https://rfun.library.duke.edu/portfolio/ggplot_workshop/))
 
