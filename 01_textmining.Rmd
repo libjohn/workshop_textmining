@@ -304,7 +304,7 @@ emma_afinn %>%
 
 ```{r emma afinn}
 emma_afinn_sentiment %>% 
-  mutate(feeling = cut_interval(sentiment, n = 7)) %>% 
+  mutate(feeling = cut_interval(sentiment, n = 5)) %>% 
   ggplot(aes(index, sentiment)) +
   geom_col(aes(fill = feeling)) +
   geom_hline(yintercept = 0, color = "forestgreen", linetype = "dashed") +
