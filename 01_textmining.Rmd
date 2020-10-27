@@ -312,7 +312,7 @@ emma_afinn_sentiment %>%
         plot.background = element_rect(fill = "grey"),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) +
-  labs(title = "Afinn Sentiment Analysis of Emma")
+  labs(title = "Afinn Sentiment Analysis of _Emma_")
 ```
 
 
