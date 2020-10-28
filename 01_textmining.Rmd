@@ -6,11 +6,13 @@ abstract: "SA = algorithmicly mapping the emotion or opinion of a text.\n\n"
 output: html_notebook
 ---
 
+Find this repository:  https://github.com/libjohn/workshop_textmining
+
 Much of this review comes from the site:  https://juliasilge.github.io/tidytext/
 
-The primary library packages that makes this work is `tidytext`
+The primary library package `tidytext` makes enables all kinds of text mining. See Also this helpful free online book: [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com/) by Silge and Robinson
 
-See Also this helpful free online book: [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com/) by Silge and Robinson
+https://github.com/libjohn/workshop_textmining
 
 ```{r}
 library(janeaustenr)
@@ -21,7 +23,7 @@ library(wordcloud2)
 
 ## Data
 
-We'll look at some books by [Jane Austen](https://en.wikipedia.org/wiki/Jane_Austen), an 18th century novelist explored women and marriage within the British upper class.  Austen has a unique and well earned following within literature. Her works is consistently discussed and honored. To this day, Austen's novels are the source of many adaptations, written and on-screen.  Through the `janeaustenr` package we can access and mine the text of six Austen novels.  We can call the collection of novels a corpra.  An individual novel is a corpus.
+We'll look at some books by [Jane Austen](https://en.wikipedia.org/wiki/Jane_Austen), an 18th century novelist. Austen explored women and marriage within the British upper class.  The novelist has a unique and well earned following within literature. Her works is consistently discussed and honored. To this day, Austen's novels are the source of many adaptations, written and on-screen.  Through the `janeaustenr` package we can access and mine the text of six Austen novels.  We can call the collection of novels a corpra.  An individual novel is a corpus.
 
 ```{r}
 austen_books()
@@ -58,7 +60,7 @@ To work with these data as a **tidy** dataset, we need to restructure the data t
 **Tokenization**  
 [defined](https://www.techopedia.com/definition/13698/tokenization)  
 
-The default tokenizing moded is "words". With the `unnest_tokens()` function, tokens can be:  **words**, characters, character_shingles, **ngrams**, skip_ngrams, **sentences**, lines, paragraphs, regex, tweets, and ptb (Penn Treebank). 
+The default tokenizing mode is "words". With the `unnest_tokens()` function, tokens can be:  **words**, characters, character_shingles, **ngrams**, skip_ngrams, **sentences**, lines, paragraphs, regex, tweets, and ptb (Penn Treebank). 
 
 ### Process
 1. Group by **line number** (above)
@@ -114,6 +116,8 @@ bind_rows(get_stopwords(), stopwords_custom)    # The default is "snowball"
 
 ```
 
+### Calculate word frequency
+
 How many Austen countable words are there if we remove _snowball_ stop-words?  There are `r library(magrittr); matchwords_books %>% distinct(word) %>% nrow()` countable words. 
 
 ```{r}
@@ -144,6 +148,42 @@ matchwords_books %>%
 ```
 
 
+## Your Turn:  Exercise 1
+
+Goal: Make a basic word cloud for the novel, _Sense and Sensibility_, `sense_novel`
+
+a. Prepare 
+
+```{r}
+pride_prej_novel <-  tibble(text = prideprejudice) %>%
+  mutate(line = row_number())
+```
+
+b. Tokenize `sense_novel` with `unnest_tokens()`
+
+```{r}
+
+```
+
+c. Remove stop-words
+
+```{r}
+
+```
+
+d. calculate word fequency
+
+```{r}
+
+```
+
+e. make a simple wordcloud
+
+```{r}
+
+```
+
+
 ## Sentiment Analysis
 
 `get_sentiments()`
@@ -164,7 +204,7 @@ tidy_books %>%
 
 ### Prepare to visualize sentiment score
 
-Match all the Austen books to the bing sentiment dictionary.  Count the word frequncy.
+Match all the Austen books to the bing sentiment dictionary.  Count the word frequency.
 
 ```{r}
 tidy_books %>%
@@ -174,7 +214,7 @@ tidy_books %>%
 
 ### Calculate sentiment
 
-> **Algorithim:** sentiment = positive - negative
+> **Algorithm:** sentiment = positive - negative
 
 Define a section of text.  
 
@@ -314,8 +354,6 @@ emma_afinn_sentiment %>%
         panel.grid.minor = element_blank()) +
   labs(title = "Afinn Sentiment Analysis of _Emma_")
 ```
-
-
 ```{r emma boxplot of afinn}
 emma_afinn %>%
   mutate(word_count = 1:n(),
@@ -336,3 +374,9 @@ emma_afinn %>%
 - Data Wrangling with dplyr: ([video](https://juliasilge.github.io/tidytext/) | [workshop](https://rfun.library.duke.edu/portfolio/r_flipped/))
 - Data Visualization with ggplot2: ([video](https://warpwire.duke.edu/w/80YEAA/) | [workshop](https://rfun.library.duke.edu/portfolio/ggplot_workshop/))
 
+
+## License
+
+CC BY-NC
+Creative Commons:  Attribution, Non-commercial
+https://creativecommons.org/licenses/by-nc/4.0/
