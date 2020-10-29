@@ -159,7 +159,7 @@ pride_prej_novel <-  tibble(text = prideprejudice) %>%
   mutate(line = row_number())
 ```
 
-b. Tokenize `sense_novel` with `unnest_tokens()`
+b. Tokenize `pride_prej_novel` with `unnest_tokens()`
 
 ```{r}
 
@@ -171,7 +171,7 @@ c. Remove stop-words
 
 ```
 
-d. calculate word fequency
+d. calculate word frequency
 
 ```{r}
 
@@ -237,10 +237,10 @@ janeaustensentiment
 ```{r sentiment score}
 janeaustensentiment %>%
   ggplot(aes(index, sentiment, )) +
-  geom_bar(stat = "identity", show.legend = FALSE, fill = "cadetblue") +
-  geom_bar(data = . %>% filter(sentiment < 0), stat = "identity", show.legend = FALSE, fill = "firebrick") +
+  geom_col(show.legend = FALSE, fill = "cadetblue") +
+  geom_col(data = . %>% filter(sentiment < 0), show.legend = FALSE, fill = "firebrick") +
   geom_hline(yintercept = 0, color = "goldenrod") +
-  facet_wrap( ~ book, ncol = 2, scales = "free_x") 
+  facet_wrap(~ book, ncol = 2, scales = "free_x") 
 ```
 
 
@@ -268,7 +268,7 @@ bing_word_counts %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   labs(title = "Frequency of popular positive and negative words",
        subtitle = "Jane Austen novels",
-       y = "Compound sentiment score", x = "Word",
+       y = "Compound sentiment score", x = "",
        fill = "Sentiment", caption = "Source: library(janeaustenr)") +
   theme(plot.title.position = "plot")
 ```
