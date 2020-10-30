@@ -149,12 +149,13 @@ matchwords_books %>%
 
 ## Your Turn:  Exercise 1
 
-Goal: Make a basic word cloud for the novel, _Sense and Sensibility_, `pride_prej_novel`
+Goal: Make a basic word cloud for the novel, _Pride and Predjudice_, `pride_prej_novel`
 
 a. Prepare 
 
 ```{r}
-
+pride_prej_novel <- tibble(text = prideprejudice) %>% 
+  mutate(line = row_number())
 ```
 
 b. Tokenize `pride_prej_novel` with `unnest_tokens()`

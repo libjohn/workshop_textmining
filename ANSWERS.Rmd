@@ -3,6 +3,8 @@ title: "Exercise 1. Your turn"
 output: html_notebook
 ---
 
+## Load library packages
+
 ```{r message=FALSE, warning=FALSE}
 library(janeaustenr)
 library(tidyverse)
@@ -10,6 +12,12 @@ library(tidytext)
 library(wordcloud2)
 ```
 
+
+## Your Turn.  Exercise 1.
+
+Goal: Make a basic word cloud for the novel, _Pride and Predjudice_, `pride_prej_novel`
+
+a. Prepare 
 
 ```{r}
 pride_prej_novel <-  tibble(text = prideprejudice) %>%
