@@ -48,3 +48,7 @@ install.packages("wordcloud2")
 - Data Visualization with ggplot2: ([video](https://warpwire.duke.edu/w/80YEAA/) | [workshop](https://rfun.library.duke.edu/portfolio/ggplot_workshop/))
 
 ![Word Cloud](images/word_cloud.PNG "Word Cloud")
+
+
+![Afinn Sentiment](images/emma_sentiment.svg)
+

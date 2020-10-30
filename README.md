@@ -1,6 +1,6 @@
 README
 ================
-2020-10-27
+2020-10-30
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -44,3 +44,5 @@ README
     [workshop](https://rfun.library.duke.edu/portfolio/ggplot_workshop/))
 
 ![Word Cloud](images/word_cloud.PNG "Word Cloud")
+
+![Afinn Sentiment](images/emma_sentiment.svg)
