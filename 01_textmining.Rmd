@@ -129,6 +129,7 @@ matchwords_books %>%
 ```{r interactive word cloud, fig.width=10}
 matchwords_books %>%
   count(word, sort = TRUE) %>%
+  head(100) %>% 
   wordcloud2(size = .4, shape = 'triangle-forward', 
              color = c("steelblue", "firebrick", "darkorchid"), 
              backgroundColor = "salmon")
@@ -148,7 +149,7 @@ matchwords_books %>%
 
 ## Your Turn:  Exercise 1
 
-Goal: Make a basic word cloud for the novel, _Sense and Sensibility_, `sense_novel`
+Goal: Make a basic word cloud for the novel, _Sense and Sensibility_, `pride_prej_novel`
 
 a. Prepare 
 
@@ -160,25 +161,36 @@ pride_prej_novel <-  tibble(text = prideprejudice) %>%
 b. Tokenize `pride_prej_novel` with `unnest_tokens()`
 
 ```{r}
-
+pp_tokens <- pride_prej_novel %>% 
+  unnest_tokens(word, text)
+pp_tokens
 ```
 
 c. Remove stop-words
 
 ```{r}
+pp_tokens
+get_stopwords()
 
+pp_minus_stopwords <- pp_tokens %>% 
+  anti_join(get_stopwords(), by = "word")
+pp_minus_stopwords
 ```
 
 d. calculate word frequency
 
 ```{r}
-
+pp_word_freq <- pp_minus_stopwords %>% 
+  count(word, sort = TRUE)
+pp_word_freq
 ```
 
 e. make a simple wordcloud
 
 ```{r}
-
+pp_word_freq %>% 
+  head(200) %>% 
+  wordcloud2()
 ```
 
 
