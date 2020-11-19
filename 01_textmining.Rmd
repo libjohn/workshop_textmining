@@ -2,7 +2,7 @@
 title: "Refamiliarize with Silge"
 author: "John Little"
 date: "`r Sys.Date()`"
-abstract: "SA = algorithmicly mapping the emotion or opinion of a text.\n\n"
+abstract: "SA = algorithmically mapping the emotion or opinion of a text.\n\n"
 output: html_notebook
 ---
 
