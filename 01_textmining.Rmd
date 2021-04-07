@@ -10,7 +10,7 @@ Find this repository:  https://github.com/libjohn/workshop_textmining
 
 Much of this review comes from the site:  https://juliasilge.github.io/tidytext/
 
-The primary library package `tidytext` makes enables all kinds of text mining. See Also this helpful free online book: [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com/) by Silge and Robinson
+The primary library package `tidytext` enables all kinds of text mining. See Also this helpful free online book: [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com/) by Silge and Robinson
 
 ```{r}
 library(janeaustenr)
