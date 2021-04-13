@@ -21,10 +21,7 @@ knitr::opts_chunk$set(
 ### Install Packages
 
 ```
-install.packages("janeaustenr")
-install.packages("tidyverse")
-install.packages("tidytext")
-install.packages("wordcloud2")
+install.packages(c("tidyverse", "tidytext", "janeaustenr", "wordcloud2"))
 ```
 ### Process
 

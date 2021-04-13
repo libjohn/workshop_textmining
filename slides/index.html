@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title> Text Mining</title>
+    <title> Sentiment Analysis</title>
     <meta charset="utf-8" />
     <meta name="author" content="John Little" />
     <meta name="date" content="2021-04-13" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="mystyles/xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="mystyles/adirondack/story.css" type="text/css" />
     <link rel="stylesheet" href="mystyles/adirondack/apron.css" type="text/css" />
@@ -19,7 +21,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# <br>Text Mining
+# <br>Sentiment Analysis
 ## R case study
 ### John Little
 ### Cntr for Data &amp; Viz
@@ -30,9 +32,25 @@ class: center, middle, inverse, title-slide
 
 
 
+## Packages for today
+
+_Sentiment Analysis:  R case study_  
+
+.bg-washed-blue.b--navy.l-10.t-20pct.w-90.ba.bw2.br3.shadow-5.ph4.mt5[
+`install.packages(c("tidyverse", "tidytext",`&lt;br&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;`"janeaustenr", "wordcloud2"))`
+]  
+
+.l-60.t-80pct.fl-w-third[
+<div class="countdown" id="timer_60760060" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">20</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+]
+
+---
+
 ## Duke University: Land Acknowledgement
 
-.f4[I would like to take a moment to honor the land in Durham, NC.  Duke University sits on the ancestral lands of the Shakori, Eno and Catawba people. This institution of higher education is built on land stolen from those peoples.  These tribes were here before the colonizers arrived.  Additionally this land has borne witness to over 400 years of the enslavement, torture, and systematic mistreatment of African people and their descendants.  Recognizing this history is an honest attempt to breakout beyond persistent patterns of colonization and to rewrite the erasure of Indigenous and Black peoples.  There is value in acknowledging the history of our occupied spaces and places.  I hope we can glimpse an understanding of these histories by recognizing the origins of collective journeys.]
+.f3[I would like to take a moment to honor the land in Durham, NC.  Duke University sits on the ancestral lands of the Shakori, Eno and Catawba people. This institution of higher education is built on land stolen from those peoples.  These tribes were here before the colonizers arrived.  Additionally this land has borne witness to over 400 years of the enslavement, torture, and systematic mistreatment of African people and their descendants.  Recognizing this history is an honest attempt to breakout beyond persistent patterns of colonization and to rewrite the erasure of Indigenous and Black peoples.  There is value in acknowledging the history of our occupied spaces and places.  I hope we can glimpse an understanding of these histories by recognizing the origins of collective journeys.]
 
 
 ---
@@ -48,60 +66,144 @@ layout: true
 
 ## Demonstration Goals
 
-- Gather some tweets  
+- Data _cleaning_ &amp; data _wrangling_
 
-- Define APIs and the Twitter Developer portal (Academic Use)  
+- Tokenize corpora (unit of analysis)
 
-- Rudimentary text analysis and visualization  
+- Visualize word clouds (novelty)  
 
-- Point out useful documentation / resources  
+- Sentiment analysis ()
+
+- Analyzing word frequencies (tf-idf)
 
 
 ***
 
 .f6.i.moon-gray.center[This is not a text analysis workshop.  The foundations of text analysis require considerably more time that we have.  
-This is a demonstration on leveraging the following tidy packages (tidyverse, and  tidytext) and sharing resources.  ]
+This is a demonstration on leveraging tidy packages (tidyverse and tidytext) and sharing resources.  ]
 
 
 ---
 
 class: img-right-full
 
-![](images/attendance.png)
+# _Text Mining with R_ 
 
-# Three tenets
+![](https://www.tidytextmining.com/images/cover.png)
 
-
-- Just numbers
-- Benefits of review
-- Dashboard fatigue is a real thing 
+#### by Silge &amp; Robinson 
 
 
-???
+- [www.tidytextmining.com](https://www.tidytextmining.com/)  
 
-- The implications of dashboard fatigue might be the most interesting thing to discuss in the QA
+- [juliasilge.github.io/tidytext](https://juliasilge.github.io/tidytext/)  
+
+- [github.com/juliasilge/janeaustenr](https://github.com/juliasilge/janeaustenr)
+
 
 ---
-layout: false
-class: img-left-full
 
-![](images/by_dept_compare.png)
+class: img-left-full  
+layout: false  
 
-## Drivers
+![](images/tidy1.svg)
 
-- Goal: create a dashboard of workshop attendance 
-- CDVS motivated by the possibility of exploring data 
-- Dashboard can be the basis of another  workshop 
+# Tidy data
+
+- Each variable is a column  
+
+- Each observation is a row  
+
+- Each type of observational unit is a table  
+
+.footer.center[.f6[-- Wickham 2014  ]  ]
+
+.footercc[  [Tidy data. Chapter 12. _R for Data Science_](https://r4ds.had.co.nz/tidy-data.html) by Wickham &amp; Grolemund]
+
+---
+
+class: img-right-full  
+
+![](images/tidy2.svg)
+
+# Tidy Text format
+
+- A token is a meaningful unit of text
+
+- Tokenization is the process of splitting text into tokens `tidytext::unnest_tokens()`
+
+- A table with **one-token-per-row**
+
+.footer[.f6[  &amp;nbsp; -- Silge &amp; Robinson] ]
+
+
+---
+class: col-2  
+
+# Other data structures  
+
+#### String  
+
+Text / character vectors
+
+
+#### Corpus  
+Raw strings annotated with additional metadata  
+
+#### Document-term matrix
+
+A sparse matrix describing a collection of documents (i.e. _corpus_) with one row for each document and one column for each term. (tf-idf)
+
+
+.footer[.f6[ &amp;nbsp; -- Silge &amp; Robinson]] 
+
+---
+
+layout: true
 
 .footercc[
 &lt;i class="fab fa-creative-commons"&gt;&lt;/i&gt;&amp;nbsp; &lt;i class="fab fa-creative-commons-by"&gt;&lt;/i&gt;&lt;i class="fab fa-creative-commons-nc"&gt;&lt;/i&gt;  &lt;a href = "https://JohnLittle.info"&gt;&lt;span class = "opacity30"&gt;https://&lt;/span&gt;JohnLittle&lt;span class = "opacity30"&gt;.info&lt;/span&gt;&lt;/a&gt; 
 &lt;span class = "opacity30"&gt; | &lt;a href="https://github.com/libjohn/workshop_textmining"&gt;https://github.com/libjohn/workshop_textmining&lt;/a&gt; | 2021-04-13 &lt;/span&gt;
 ]
 
-???
 
-- These are not exactly the best drivers for creating a dashboard.  They’re not bad either.
+---
 
+# Other packages &lt;sup&gt;✤&lt;/sup&gt;
+
+- [tm](https://tm.r-forge.r-project.org/) -- _Text Mining Infrastructure in R_  
+
+- [quanteda](https://quanteda.io/) -- _Package for managing and analyzing textual data_
+
+- [gutenbergr](https://docs.ropensci.org/gutenbergr/) -- public domain text from **Project Gutenberg**
+
+
+.footnote[.small[ ✤ Not covered in this case study]]
+
+
+---
+
+# Further study
+
+Read more of [_Text Mining with R: A Tidy Approach_](https://www.tidytextmining.com)
+
+1. The tidy text format
+2. **Sentiment analysis with tidy data**
+3. **Analyzing word and document frequency: tf-idf**
+4. Relationships between words: n-grams and correlations
+5. Converting to and from non-tidy formats
+6. **Topic modeling** (unsupervised classification)
+7. Case study: comparing Twitter archives&lt;br&gt;_plus more case studies_
+
+
+---
+
+# Further study
+
+_Summer Institute for Computational Social Science_  
+co-founded by [Chris Bail &amp; Matthew Salganik](https://sicss.io/people)
+
+[SICSS Text Analysis curriculum](https://sicss.io/curriculum)
 
 ---
 layout: false
@@ -133,113 +235,6 @@ https://library.duke.edu/data
 &lt;i class="fab fa-creative-commons fa-2x"&gt;&lt;/i&gt; &amp;nbsp; &lt;i class="fab fa-creative-commons-by fa-2x"&gt;&lt;/i&gt;&lt;i class="fab fa-creative-commons-nc fa-2x"&gt;&lt;/i&gt;  
 .f6.moon-gray[Creative Commons:  Attribution-NonCommercial 4.0]  
 .f7.moon-gray[https://creativecommons.org/licenses/by-nc/4.0]
-
----
-class: inverse
-
-# Appendix
-
-## screen shots
-
----
-layout: true
-
-.footercc[
-&lt;i class="fab fa-creative-commons"&gt;&lt;/i&gt;&amp;nbsp; &lt;i class="fab fa-creative-commons-by"&gt;&lt;/i&gt;&lt;i class="fab fa-creative-commons-nc"&gt;&lt;/i&gt;  &lt;a href = "https://JohnLittle.info"&gt;&lt;span class = "opacity30"&gt;https://&lt;/span&gt;JohnLittle&lt;span class = "opacity30"&gt;.info&lt;/span&gt;&lt;/a&gt; 
-&lt;span class = "opacity30"&gt; | &lt;a href="https://github.com/libjohn/workshop_textmining"&gt;https://github.com/libjohn/workshop_textmining&lt;/a&gt; | 2021-04-13 &lt;/span&gt;
-]
-
----
-
-![Tidyverse](images/tidyverse.png# w-10pct t-1 db fr mr-4)
-
-## Technology stack 
-
-
-
-- R   
-    - R is a data-first coding language   
-    - R can be a universal interface for analysis and workflow   
-- Tidyverse is a well developed approach to workflow &amp; the data lifecycle  
-- Bias towards enabling reproducibility   
-    - scripting   
-    - reporting   
-    
-
-![flexdashboards](images/flexdashboard.png#  w-10pct fr fm mr-4)  
-
-![r logo](images/r_logo.png# fm fr w-10pct mr-4)  
-
-![rmarkdown](images/rmarkdown.png#  w-10pct fr mr-4)  
-
-    
-???
-
-- Reuse analysis code to produce reports, email alerts, interactive dashboards, etc.  
-
----
-
-## Lesson
-
-.fl-10.w-60.bg.b.ba.bw1.br3.shadow-5.ph4.mt4.center.prussian[The last thing you should do is  
-build the dashboard  
-]  
-
-- Identify target audience and scope  
-- Create summary reports   
-- Build a static analysis   
-- Generate push-reports based on dynamic thresholds  
-- Advanced: Build a reporting application
-
-???
-Or, in this case, build a workshop attendance application
-
----
-## Other important question(s) 
-
-- If developing the dashboard in R...  
-    - Flexdashboard (dashboards)
-    - Shiny (Web applications)
-
-Not mutually exclusive but Flexdashboards has a significantly lower barrier to entry  
-
-.center[![people](images/happy_people2.jpg# h-10pct w-33pct)] 
-
----
-## Actual Goals  
-
-- Host **cleaned and disaggregated data** 
-
-- Provide a **summary of attendance** 
-
-![survey](images/survey_1.png# absolute ofv r-3 w-75pct h-7-12th)
-
-
-    
-???
-
-- Host **cleaned and disaggregated data** 
-    - A data archive for clean data 
-        - exported from the SpringShare registration system 
-        - accounts for attendance
-- Provide a **summary of attendance** so that staff can 
-    - Assess their workshop’s impact over time (as measured by attendance and registration)
-    - See current semester attendance totals within the context of multi-year totals
-
----
-class: center
-
-![](images/full_attendance.png# l-0 t-0 w-two-thirds h-80pct ofv absolute)
-![](images/full_demographics.png# w-third h-40pct t-0 r-0 ofv absolute)
-![](images/full_survey.png# w-third h-40pct t-40pct r-0 ofv absolute)
-![](images/slice_tables.jpg# l-0 t-80pct w-100pct ofv absolute)
-
-.prussian[
-.absolute.w-5-12th.pa-3.l-4-12th.t-8-12th.b.ba.bw-4.br-4.shadow-5.bg-white-80[
-Collage of dashboard screens
-]
-]
-
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
