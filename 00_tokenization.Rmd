@@ -15,6 +15,8 @@ library(tidytext)
 
 ## Text
 
+Poem by Emily Dickinson
+
 ```{r}
 text <- c("Because I could not stop for Death -",
           "He kindly stopped for me -",
@@ -33,7 +35,7 @@ text_df
 ```
 
 
-## Todenization
+## Tokenization
 
 ```{r}
 text_df %>%

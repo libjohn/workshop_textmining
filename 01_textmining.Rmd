@@ -3,7 +3,12 @@ title: "Refamiliarize with Silge"
 author: "John Little"
 date: "`r Sys.Date()`"
 abstract: "SA = algorithmically mapping the emotion or opinion of a text.\n\n"
-output: html_notebook
+output:
+  html_notebook: defult
+  rmdformats::html_clean:
+    highlight: kate
+    lightbox: TRUE
+    thumbnails: TRUE
 ---
 
 Find this repository:  https://github.com/libjohn/workshop_textmining
@@ -18,6 +23,17 @@ library(tidyverse)
 library(tidytext)
 library(wordcloud2)
 ```
+
+```{r echo=FALSE}
+htmltools::img(src = knitr::image_uri(here::here("images", "Rfun_logo.png")),
+alt = 'Rfun',
+style = 'position:absolute; bottom:15px; left:0; padding:5px; border:0px;')
+
+htmltools::img(src = knitr::image_uri(here::here("images", "CDVS-logo_sm_Spring2020.png")),
+alt = 'Rfun',
+style = 'position:absolute; bottom:0; right:0; padding:5px; border:0px;')
+```
+
 
 ## Data
 
@@ -116,7 +132,7 @@ bind_rows(get_stopwords(), stopwords_custom)    # The default is "snowball"
 
 ### Calculate word frequency
 
-How many Austen countable words are there if we remove _snowball_ stop-words?  There are `r library(magrittr); matchwords_books %>% distinct(word) %>% nrow()` countable words. 
+How many Austen countable words are there if we remove _snowball_ stop-words?  There are `r   nrow(dplyr::distinct(matchwords_books, word))` countable words. 
 
 ```{r}
 matchwords_books %>% 
@@ -289,7 +305,7 @@ head(get_sentiments("nrc"))
 head(get_sentiments("afinn"))
 
 get_sentiments("nrc") %>% 
-  count(sentiment, sort = TRUE)
+  count(sentiment, sort = TRUE) 
 
 ```
 
@@ -374,8 +390,25 @@ emma_afinn %>%
 - Data Visualization with ggplot2: ([video](https://warpwire.duke.edu/w/80YEAA/) | [workshop](https://rfun.library.duke.edu/portfolio/ggplot_workshop/))
 
 
-## License
+---
 
-CC BY-NC
-Creative Commons:  Attribution, Non-commercial
+```{r include=FALSE}
+library(htmltools)
+tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+<center>
+[John Little](https://johnlittle.info/)  
+[Rfun](https://Rfun.library.duke.edu/)  
+[Center for Data & Visualization Sciences](https://library.duke.edu/data/)
+
+<i class="fab fa-creative-commons fa-2x"></i> &nbsp; <i class="fab fa-creative-commons-by fa-2x"></i><i class="fab fa-creative-commons-nc fa-2x"></i> 
+
+CC BY-NC  
+Creative Commons:  Attribution, Non-commercial  
 https://creativecommons.org/licenses/by-nc/4.0/
+</center>
+
+&nbsp;  
+
+&nbsp;  

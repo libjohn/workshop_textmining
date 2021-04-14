@@ -265,6 +265,7 @@ library(tidytext)</code></pre>
 <!-- rnb-text-begin -->
 <div id="text" class="section level2">
 <h2>Text</h2>
+<p>Poem by Emily Dickinson</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGV4dCA8LSBjKFwiQmVjYXVzZSBJIGNvdWxkIG5vdCBzdG9wIGZvciBEZWF0aCAtXCIsXG4gICAgICAgICAgXCJIZSBraW5kbHkgc3RvcHBlZCBmb3IgbWUgLVwiLFxuICAgICAgICAgIFwiVGhlIENhcnJpYWdlIGhlbGQgYnV0IGp1c3QgT3Vyc2VsdmVzIC1cIixcbiAgICAgICAgICBcImFuZCBJbW1vcnRhbGl0eVwiKVxuXG50ZXh0XG5gYGAifQ== -->
@@ -301,8 +302,8 @@ text_df</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="todenization" class="section level2">
-<h2>Todenization</h2>
+<div id="tokenization" class="section level2">
+<h2>Tokenization</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGV4dF9kZiAlPiVcbiAgdW5uZXN0X3Rva2Vucyh3b3JkLCB0ZXh0KVxuYGBgIn0= -->
@@ -321,7 +322,7 @@ text_df</code></pre>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogInVubmVzdCB0b2tlbnMiDQphdXRob3I6ICJKb2huIExpdHRsZSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCmFic3RyYWN0OiAiPGJyPiBUaGlzIGRvY3VtZW50IGRlcml2ZWQgZnJvbSBDaGFwdGVyIDEgb2YgU2lsZ2UncyBhbmQgUm9iaW5zb24ncyBUZXh0IE1pbm5pbmcgd2l0aCBSPGJyPmh0dHBzOi8vd3d3LnRpZHl0ZXh0bWluaW5nLmNvbS90aWR5dGV4dC5odG1sIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KDQpgYGB7ciBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KHRpZHl0ZXh0KQ0KYGBgDQoNCg0KIyMgVGV4dA0KDQpgYGB7cn0NCnRleHQgPC0gYygiQmVjYXVzZSBJIGNvdWxkIG5vdCBzdG9wIGZvciBEZWF0aCAtIiwNCiAgICAgICAgICAiSGUga2luZGx5IHN0b3BwZWQgZm9yIG1lIC0iLA0KICAgICAgICAgICJUaGUgQ2FycmlhZ2UgaGVsZCBidXQganVzdCBPdXJzZWx2ZXMgLSIsDQogICAgICAgICAgImFuZCBJbW1vcnRhbGl0eSIpDQoNCnRleHQNCmBgYA0KDQojIyBBIHRpZHkgdGFibGUNCg0KYGBge3J9DQp0ZXh0X2RmIDwtIHRpYmJsZShsaW5lID0gMTo0LCB0ZXh0ID0gdGV4dCkNCg0KdGV4dF9kZg0KYGBgDQoNCg0KIyMgVG9kZW5pemF0aW9uDQoNCmBgYHtyfQ0KdGV4dF9kZiAlPiUNCiAgdW5uZXN0X3Rva2Vucyh3b3JkLCB0ZXh0KQ0KYGBgDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogInVubmVzdCB0b2tlbnMiDQphdXRob3I6ICJKb2huIExpdHRsZSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCmFic3RyYWN0OiAiPGJyPiBUaGlzIGRvY3VtZW50IGRlcml2ZWQgZnJvbSBDaGFwdGVyIDEgb2YgU2lsZ2UncyBhbmQgUm9iaW5zb24ncyBUZXh0IE1pbm5pbmcgd2l0aCBSPGJyPmh0dHBzOi8vd3d3LnRpZHl0ZXh0bWluaW5nLmNvbS90aWR5dGV4dC5odG1sIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KDQpgYGB7ciBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KHRpZHl0ZXh0KQ0KYGBgDQoNCg0KIyMgVGV4dA0KDQpQb2VtIGJ5IEVtaWx5IERpY2tpbnNvbg0KDQpgYGB7cn0NCnRleHQgPC0gYygiQmVjYXVzZSBJIGNvdWxkIG5vdCBzdG9wIGZvciBEZWF0aCAtIiwNCiAgICAgICAgICAiSGUga2luZGx5IHN0b3BwZWQgZm9yIG1lIC0iLA0KICAgICAgICAgICJUaGUgQ2FycmlhZ2UgaGVsZCBidXQganVzdCBPdXJzZWx2ZXMgLSIsDQogICAgICAgICAgImFuZCBJbW1vcnRhbGl0eSIpDQoNCnRleHQNCmBgYA0KDQojIyBBIHRpZHkgdGFibGUNCg0KYGBge3J9DQp0ZXh0X2RmIDwtIHRpYmJsZShsaW5lID0gMTo0LCB0ZXh0ID0gdGV4dCkNCg0KdGV4dF9kZg0KYGBgDQoNCg0KIyMgVG9rZW5pemF0aW9uDQoNCmBgYHtyfQ0KdGV4dF9kZiAlPiUNCiAgdW5uZXN0X3Rva2Vucyh3b3JkLCB0ZXh0KQ0KYGBgDQoNCg==</div>
 
 
 
