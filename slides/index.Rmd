@@ -38,11 +38,12 @@ tagList(rmarkdown::html_dependency_font_awesome())
 # )
 ```
 
-## Packages for today
+
+## Packages
 
 _Sentiment Analysis:  R case study_  
 
-.bg-washed-blue.b--navy.l-10.t-20pct.w-90.ba.bw2.br3.shadow-5.ph4.mt5[
+.bg-washed-blue.b--navy.t-20.w-80.ba.bw2.br3.shadow-5.ph4.mt5[
 `install.packages(c("tidyverse", "tidytext",`<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`"janeaustenr", "wordcloud2"))`
 ]  
 
@@ -51,6 +52,7 @@ _Sentiment Analysis:  R case study_
 countdown::countdown(20)
 ```
 ]
+
 
 ---
 
