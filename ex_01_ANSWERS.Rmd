@@ -58,3 +58,19 @@ pride_prej_novel %>%
   with(wordcloud::wordcloud(word, n, max.words = 100))
 ```
 
+f. Since "Friends don't let friends make word clouds", make a barplot of the word frequency.  
+
+```{r}
+pride_prej_novel %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(get_stopwords(), by = "word") %>% 
+  count(word, sort = TRUE) %>% 
+  slice_head(n = 10) %>% 
+  ggplot(aes(x = n, y = fct_reorder(word, n))) +
+  geom_col() +
+  labs(title = "Word Frequency",
+       subtitle = "Jane Austen novel",
+       x = "", y = "",
+       caption = "Source: janeaustenr")
+```
+
