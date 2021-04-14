@@ -1,14 +1,14 @@
 ---
-title: "Refamiliarize with Silge"
+title: "Sentiment Analysis"
 author: "John Little"
 date: "`r Sys.Date()`"
 abstract: "SA = algorithmically mapping the emotion or opinion of a text.\n\n"
 output:
-  html_notebook: defult
   rmdformats::html_clean:
     highlight: kate
     lightbox: TRUE
     thumbnails: TRUE
+  html_notebook: default
 ---
 
 Find this repository:  https://github.com/libjohn/workshop_textmining
