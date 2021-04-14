@@ -4,11 +4,11 @@ author: "John Little"
 date: "`r Sys.Date()`"
 abstract: "SA = algorithmically mapping the emotion or opinion of a text.\n\n"
 output:
+  html_notebook: default
   rmdformats::html_clean:
     highlight: kate
     lightbox: TRUE
     thumbnails: TRUE
-  html_notebook: default
 ---
 
 Find this repository:  https://github.com/libjohn/workshop_textmining
@@ -350,9 +350,17 @@ emma_afinn_sentiment
 emma_afinn %>% 
   mutate(word_count = 1:n(),
          index = word_count %/% 80) %>% 
-  filter(index == 104) %>% 
+  filter(index == 104) %>%
   count(word, sort = TRUE) %>%
-  wordcloud2(size = .4, shape = 'diamond', 
+  with(wordcloud::wordcloud(word, n, 
+                            rot.per = .3))
+
+emma_afinn %>% 
+  mutate(word_count = 1:n(),
+         index = word_count %/% 80) %>% 
+  filter(index == 104) %>%
+  count(word, sort = TRUE) %>%
+  wordcloud2(size = .4, shape = 'diamond',
              backgroundColor = "darkseagreen")
 
 ```
