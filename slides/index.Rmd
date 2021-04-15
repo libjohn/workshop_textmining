@@ -3,7 +3,7 @@ title: "<br>Sentiment Analysis"
 subtitle: "R case study"
 author: "John Little"
 institute: "Cntr for Data & Viz"
-date: "April 13, 2021"
+date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
     lib_dir: libs    
