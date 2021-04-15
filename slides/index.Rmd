@@ -152,15 +152,16 @@ class: col-2
 
 #### String  
 
-Text / character vectors
+- Text / character vectors
 
 
 #### Corpus  
-Raw strings annotated with additional metadata  
+- Raw strings annotated with additional metadata  
+- A collection of documents  
 
 #### Document-term matrix
 
-A sparse matrix describing a collection of documents (i.e. _corpus_) with one row for each document and one column for each term. (tf-idf)
+- A sparse matrix describing a collection of documents (i.e. _corpus_) with one row for each document and one column for each term. (tf-idf)
 
 
 .footer[.f6[ &nbsp; -- Silge & Robinson]] 
