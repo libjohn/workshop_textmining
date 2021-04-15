@@ -49,7 +49,7 @@ _Sentiment Analysis:  R case study_
 
 .l-60.t-80pct.fl-w-third[
 ```{r echo=FALSE}
-countdown::countdown(20)
+countdown::countdown(17)
 ```
 ]
 
@@ -80,7 +80,7 @@ layout: true
 
 - Visualize word clouds (novelty)  
 
-- Sentiment analysis ()
+- Sentiment analysis 
 
 - Analyzing word frequencies (tf-idf)
 
