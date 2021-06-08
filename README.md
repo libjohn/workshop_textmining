@@ -1,10 +1,10 @@
 README
 ================
-2021-04-13
+2021-06-08
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## Text Mining: Senitment analysis and word clouds
+## Text Mining: Sentiment analysis and word clouds
 
 <!-- badges: start -->
 <!-- badges: end -->
