@@ -1,0 +1,33 @@
+Type: Compendium
+Package: Compendium title
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.1
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "0000-0002-3600-0972"))
+Description: Compendium description
+License: What license it uses
+URL:  https://github.com/libjohn/workshop_textmining
+Depends: 
+    countdown,
+    dplyr,
+    here,
+    htmltools,
+    janeaustenr,
+    knitr,
+    rmarkdown,
+    rmdformats,
+    stopwords,
+    tidytext,
+    tidyverse,
+    wordcloud,
+    wordcloud2,
+    xaringan
+Remotes: 
+    gadenbuie/countdown
+    lchiffon/wordcloud2
+Encoding: UTF-8
+LazyData: true

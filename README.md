@@ -1,12 +1,20 @@
 README
 ================
-2021-06-08
+2021-06-15
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ## Text Mining: Sentiment analysis and word clouds
 
 <!-- badges: start -->
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4908864.svg)](https://doi.org/10.5281/zenodo.4908864)
+
+[![Lifecycle
+Badge](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+
+[![Launch Rstudio
+Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/libjohn/workshop_textmining/master?urlpath=rstudio)
 <!-- badges: end -->
 
 ### Install Packages
