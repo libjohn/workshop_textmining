@@ -1,5 +1,6 @@
 install.packages(c(
   "tidyverse",
+  "remotes",
   "knitr",
   "rmarkdown",
   "htmltools",

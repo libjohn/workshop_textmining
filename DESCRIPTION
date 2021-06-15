@@ -18,6 +18,7 @@ Depends:
     htmltools,
     janeaustenr,
     knitr,
+    remotes,
     rmarkdown,
     rmdformats,
     stopwords,
