@@ -1,15 +1,15 @@
 Type: Compendium
-Package: Compendium title
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.1
+Package: R workshop for tidytext and wordcloud2 
+Title: Text Mining: Sentiment analysis and word clouds with tidytext
+Version: 1.1.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "John",
+           family = "Little",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "John.Little@Duke.edu",
            comment = c(ORCID = "0000-0002-3600-0972"))
-Description: Compendium description
-License: What license it uses
+Description: Case Study: Demonstrate and learn tidytext sentiment analysis
+License: CC BY-NC
 URL:  https://github.com/libjohn/workshop_textmining
 Depends: 
     countdown,
