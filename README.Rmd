@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 [![Lifecycle Badge](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)  
 
-[![Launch Rstudio Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/libjohn/workshop_textmining/master?urlpath=rstudio)
+[![Launch Rstudio Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/libjohn/workshop_textmining/main?urlpath=rstudio)
 <!-- badges: end -->
 
 ### Install Packages
