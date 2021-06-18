@@ -1,7 +1,7 @@
 Type: Compendium
 Package: R workshop for tidytext and wordcloud2 
 Title: Text Mining: Sentiment analysis and word clouds with tidytext
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: 
     person(given = "John",
            family = "Little",
