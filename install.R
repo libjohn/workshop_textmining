@@ -13,4 +13,3 @@ install.packages(c(
 ))
 remotes::install_github("gadenbuie/countdown")
 remotes::install_github("lchiffon/wordcloud2")
-#  "here",
