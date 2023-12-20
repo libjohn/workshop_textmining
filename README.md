@@ -19,7 +19,7 @@ BY-NC](https://img.shields.io/badge/Creative%20Commons-BY--NC-EF9421?logo=creati
 [![Launch Rstudio
 Binder](http://mybinder.org/badge_logo.svg "Launch RStudio Binder")](https://mybinder.org/v2/gh/libjohn/workshop_textmining/main?urlpath=rstudio)
 
-[![YouTube Playlist](https://img.shields.io/badge/YouTube-Playlist-f00?logo=youtube "Workshop Recording")](https://www.youtube.com/embed/8ISc8V9GDAg?si=iErWIj6F82aFWIV1)
+[![YouTube Playlist](https://img.shields.io/badge/YouTube-Workshop%20recording-f00?logo=youtube "Workshop Recording")](https://www.youtube.com/embed/8ISc8V9GDAg?si=iErWIj6F82aFWIV1)
 <!-- badges: end -->
 
 ### Install Packages
