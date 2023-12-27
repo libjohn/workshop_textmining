@@ -1,0 +1,74 @@
+---
+title: "Exercise 1. Your turn"
+output: html_notebook
+---
+
+## Load library packages
+
+```{r}
+library(janeaustenr)
+library(tidyverse)
+library(tidytext)
+library(wordcloud2)
+```
+
+## Your Turn. Exercise 1.
+
+Goal: Make a basic word cloud for the novel, *Pride and Predjudice*, `pride_prej_novel`
+
+a.  Prepare
+
+```{r}
+pride_prej_novel <-  tibble(text = prideprejudice) %>%
+  mutate(line = row_number())
+```
+
+b.  Tokenize `sense_novel` with `unnest_tokens()`
+
+```{r}
+pride_prej_novel %>% 
+  unnest_tokens(word, text)
+```
+
+c.  Remove stop-words
+
+```{r}
+pride_prej_novel %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(get_stopwords())
+```
+
+d.  calculate word fequency
+
+```{r}
+pride_prej_novel %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(get_stopwords()) %>% 
+  count(word, sort = TRUE) 
+```
+
+e.  make a simple wordcloud
+
+```{r}
+pride_prej_novel %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(get_stopwords()) %>% 
+  count(word, sort = TRUE) %>% 
+  with(wordcloud::wordcloud(word, n, max.words = 100))
+```
+
+f.  Since "Friends don't let friends make word clouds", make a barplot of the word frequency.
+
+```{r}
+pride_prej_novel %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(get_stopwords(), by = "word") %>% 
+  count(word, sort = TRUE) %>% 
+  slice_head(n = 10) %>% 
+  ggplot(aes(x = n, y = fct_reorder(word, n))) +
+  geom_col() +
+  labs(title = "Word Frequency",
+       subtitle = "Jane Austen novel",
+       x = "", y = "",
+       caption = "Source: janeaustenr")
+```
