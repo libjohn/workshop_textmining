@@ -1,0 +1,122 @@
+---
+title: "Sentiment Analysis"
+subtitle: "R case study"
+
+author: 
+  - name: "John R Little"
+    affiliations:
+      - name: "Duke University"
+      - department: "Center for Data & Vizualization Sciences"
+
+# date: 'today'
+date-modified: 'today'
+date-format: long
+
+format: 
+  revealjs:
+    embed-resources: true 
+    theme: [moon]
+    footer: "[John R Little](https://JohnLittle.info) ● [Center for Data & Visualization Sciences](https://library.duke.edu/data/) ● [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)"
+    logo:  images/rfun_smaller.png
+    license: CC BY
+
+editor: source    
+---
+
+## Packages
+
+`install.packages(c("tidyverse", "tidytext", "janeaustenr", "wordcloud2"))`
+
+## Duke University: Land Acknowledgement
+
+::: r-fit-text
+I would like to take a moment to honor the land in Durham, NC. Duke University sits on the ancestral lands of the Shakori, Eno and Catawba people. This institution of higher education is built on land stolen from those peoples. These tribes were here before the colonizers arrived. Additionally this land has borne witness to over 400 years of the enslavement, torture, and systematic mistreatment of African people and their descendants. Recognizing this history is an honest attempt to breakout beyond persistent patterns of colonization and to rewrite the erasure of Indigenous and Black peoples. There is value in acknowledging the history of our occupied spaces and places. I hope we can glimpse an understanding of these histories by recognizing the origins of collective journeys.
+:::
+
+## Demonstration Goals
+
+-   Data *cleaning* & data *wrangling*
+
+-   Tokenize corpora (unit of analysis)
+
+-   Visualize word clouds (novelty)
+
+-   Sentiment analysis
+
+-   Analyzing word frequencies (tf-idf)
+
+::: {style="color: gray; font-size: large;"}
+This is not a text analysis workshop. The foundations of text analysis require considerably more time that we have. This is a demonstration on leveraging tidy packages (tidyverse and tidytext) and sharing resources.
+:::
+
+## Book & Resources
+
+*Text Mining with R*
+
+![](https://www.tidytextmining.com/images/cover.png)
+
+#### by Silge & Robinson
+
+-   [www.tidytextmining.com](https://www.tidytextmining.com/)
+
+-   [juliasilge.github.io/tidytext](https://juliasilge.github.io/tidytext/)
+
+-   [github.com/juliasilge/janeaustenr](https://github.com/juliasilge/janeaustenr)
+
+## Tidy data
+
+-   Each variable is a column
+
+-   Each observation is a row
+
+-   Each type of observational unit is a table
+
+![Tidy Data](images/tidy-1.png){fig-alt="Tidy Data Image from _R for Data Science_"}
+
+## Tidy Text format
+
+-   A token is a meaningful unit of text
+-   Tokenization is the process of splitting text into tokens `tidytext::unnest_tokens()`
+-   A table with **one-token-per-row**
+
+## Other data structures
+
+#### String
+
+-   Text / character vectors
+
+#### Corpus
+
+-   Raw strings annotated with additional metadata\
+-   A collection of documents
+
+#### Document-term matrix
+
+-   A sparse matrix describing a collection of documents (i.e. *corpus*) with one row for each document and one column for each term. (tf-idf)
+
+## Other packages
+
+-   [tm](https://tm.r-forge.r-project.org/) -- *Text Mining Infrastructure in R*
+
+-   [quanteda](https://quanteda.io/) -- *Package for managing and analyzing textual data*
+
+-   [gutenbergr](https://docs.ropensci.org/gutenbergr/) -- public domain text from **Project Gutenberg**
+
+## Further study
+
+Read more of [*Text Mining with R: A Tidy Approach*](https://www.tidytextmining.com)
+
+1.  The tidy text format
+2.  **Sentiment analysis with tidy data**
+3.  **Analyzing word and document frequency: tf-idf**
+4.  Relationships between words: n-grams and correlations
+5.  Converting to and from non-tidy formats
+6.  **Topic modeling** (unsupervised classification)
+7.  Case study: comparing Twitter archives<br>*plus more case studies*
+
+## Further study
+
+*Summer Institute for Computational Social Science*\
+co-founded by [Chris Bail & Matthew Salganik](https://sicss.io/people)
+
+[SICSS Text Analysis curriculum](https://sicss.io/curriculum)

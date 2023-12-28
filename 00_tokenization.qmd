@@ -1,0 +1,59 @@
+---
+title: "unnest tokens"
+
+author: 
+  - name: John R Little
+    affiliations:
+      - name: Duke University
+      - department: Center for Data & Vizualization Sciences
+
+# date: 'today'
+date-modified: 'today'
+date-format: long
+
+format: 
+  html:
+    embed-resources: true
+    footer: "[John R Little](https://JohnLittle.info) ● [Center for Data & Visualization Sciences](https://library.duke.edu/data/) ● [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)"
+    logo:  images/Rfun_logo.png
+    license: CC BY    
+    toc: true
+    toc_float: true
+    df-print: paged
+---
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(tidytext)
+```
+
+## Text
+
+Poem by Emily Dickinson
+
+```{r}
+text <- c("Because I could not stop for Death -",
+          "He kindly stopped for me -",
+          "The Carriage held but just Ourselves -",
+          "and Immortality")
+
+text
+```
+
+## A tidy table
+
+```{r}
+text_df <- tibble(line = 1:4, text = text)
+
+text_df
+```
+
+## Tokenization
+
+```{r}
+text_df %>%
+  unnest_tokens(word, text)
+```
