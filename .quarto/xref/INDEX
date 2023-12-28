@@ -1,0 +1,23 @@
+{
+  "00_tokenization.qmd": {
+    "00_tokenization.html": "e6e7b97a"
+  },
+  "01_textmining.qmd": {
+    "01_textmining.html": "d6855c6e"
+  },
+  "ex_01.qmd": {
+    "ex_01.html": "e32f3a85"
+  },
+  "ex_01_ANSWERS.qmd": {
+    "ex_01_ANSWERS.html": "952120f5"
+  },
+  "slides/slides.qmd": {
+    "slides.html": "a21b675b"
+  },
+  "slides/slides_trouble.qmd": {
+    "slides_trouble.html": "25a51f54"
+  },
+  "slides/slide_trouble.qmd": {
+    "slide_trouble.html": "ac9c278a"
+  }
+}

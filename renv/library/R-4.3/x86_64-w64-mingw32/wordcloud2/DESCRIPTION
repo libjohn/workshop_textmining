@@ -1,0 +1,24 @@
+Package: wordcloud2
+Type: Package
+Title: Create Word Cloud by 'htmlwidget'
+Version: 0.2.1
+Author: Dawei Lang[aut, cre], Guan-tin Chien[aut, author for 'wordcloud2.js']
+Description: A fast visualization tool for creating wordcloud
+    by using 'wordcloud2.js'. 'wordcloud2.js' is a JavaScript library to create 
+    wordle presentation on 2D canvas or HTML <https://timdream.org/wordcloud2.js/>.
+License: GPL-2
+Depends: R (>= 3.1.0)
+LazyData: TRUE
+VignetteBuilder: knitr
+Imports: htmlwidgets, base64enc, grDevices, graphics
+Suggests: knitr, rmarkdown, webshot
+Enhances: shiny (>= 0.12)
+URL: https://github.com/lchiffon/wordcloud2
+BugReports: https://github.com/lchiffon/wordcloud2/issues
+Maintainer: Dawei Lang <chiffonlang@icloud.com>
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2018-01-03 14:49:34 UTC; chiffon
+Repository: CRAN
+Date/Publication: 2018-01-03 15:20:37 UTC
+Built: R 4.3.2; ; 2023-12-24 04:22:50 UTC; windows

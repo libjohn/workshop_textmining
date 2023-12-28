@@ -1,0 +1,50 @@
+---
+title: "How to add a data set"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to add a data set}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(textdata)
+```
+
+This package provides infrastructure to make text datasets available within R, even when they are too large to store within an R package or are licensed in such a way that prevents them from being included in OSS-licensed packages.
+
+Do you want to add a new dataset to the textdata package?
+
+- Create a  R file named `prefix_*.R` in the `R/` folder, where `*` is the name of the dataset. Supported prefixes include
+    - `dataset_`
+    - `lexicon_`
+- Inside that file create 3 functions named `download_*()`, `process_*()` and `dataset_*()`.
+  - The `download_*()` function should take 1 argument named `folder_path`. It has 2 tasks, first it should check if the file is already downloaded. If it is already downloaded it should return `invisible()`. If the file isn't at the path it should download the file to said path.
+  - The `process_*()` function should take 2 arguments, `folder_path` and `name_path`. `folder_path` denotes the the path to the file returned by `download_*` and `name_path` is the path to where the polished data should live. Main point of `process_*()` is to turn the downloaded file into a .rds file containing a tidy tibble.
+  - The `dataset_*()` function should wrap the `load_dataset()`.
+- Add the `process_*()` function to the named list `process_functions` in the file process_functions.R.
+- Add the `download_*()` function to the named list `download_functions` in the file download_functions.R.
+- Modify the `print_info` list in the info.R file.
+- Add `dataset_*.R` to the @include tags in `download_functions.R`.
+- Add the dataset to the table in `README.Rmd`.
+- Add the dataset to `_pkgdown.yml`.
+- Write a bullet in the `NEWS.md file`.
+
+What are the guidelines for adding datasets?
+
+# Guidelines for textdata datasets
+
+- All datasets must have a license or terms of use clearly specified.
+- Data should be a vector or tibble.
+- Use `word` instead of `words` for column names.
+
+# Classification datasets
+
+For datasets that comes with a testing and training dataset. Let the user pick which one to retrieve with a `split` argument similar to how `dataset_ag_news()` is doing.

@@ -1,0 +1,13 @@
+useDynLib(wordcloud)
+export(wordcloud)
+export(commonality.cloud)
+export(comparison.cloud)
+export(textplot)
+export(wordlayout)
+import( Rcpp )
+import(methods)
+import(RColorBrewer)
+importFrom("graphics", "lines", "par", "plot", "plot.new",
+             "plot.window", "points", "rect", "strheight", "strwidth",
+             "text")
+importFrom("stats", "runif", "sd")

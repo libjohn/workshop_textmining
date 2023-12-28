@@ -1,0 +1,19 @@
+{
+  "hash": "e54c545230edfc43ea5b2a07f7e0af89",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"unnest tokens\"\n\nauthor: \n  - name: John R Little\n    affiliations:\n      - name: Duke University\n      - department: Center for Data & Vizualization Sciences\n\n# date: 'today'\ndate-modified: 'today'\ndate-format: long\n\nformat: \n  html:\n    embed-resources: true\n    footer: \"[John R Little](https://JohnLittle.info) ● [Center for Data & Visualization Sciences](https://library.duke.edu/data/) ● [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)\"\n    logo:  images/Rfun_logo.png\n    license: CC BY    \n    toc: true\n    toc_float: true\n    df-print: paged\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(tidytext)\n```\n:::\n\n\n## Text\n\nPoem by Emily Dickinson\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntext <- c(\"Because I could not stop for Death -\",\n          \"He kindly stopped for me -\",\n          \"The Carriage held but just Ourselves -\",\n          \"and Immortality\")\n\ntext\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"Because I could not stop for Death -\"  \n[2] \"He kindly stopped for me -\"            \n[3] \"The Carriage held but just Ourselves -\"\n[4] \"and Immortality\"                       \n```\n\n\n:::\n:::\n\n\n## A tidy table\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntext_df <- tibble(line = 1:4, text = text)\n\ntext_df\n```\n\n::: {.cell-output-display}\n`````{=html}\n<div data-pagedtable=\"false\">\n  <script data-pagedtable-source type=\"application/json\">\n{\"columns\":[{\"label\":[\"line\"],\"name\":[1],\"type\":[\"int\"],\"align\":[\"right\"]},{\"label\":[\"text\"],\"name\":[2],\"type\":[\"chr\"],\"align\":[\"left\"]}],\"data\":[{\"1\":\"1\",\"2\":\"Because I could not stop for Death -\"},{\"1\":\"2\",\"2\":\"He kindly stopped for me -\"},{\"1\":\"3\",\"2\":\"The Carriage held but just Ourselves -\"},{\"1\":\"4\",\"2\":\"and Immortality\"}],\"options\":{\"columns\":{\"min\":{},\"max\":[10]},\"rows\":{\"min\":[10],\"max\":[10]},\"pages\":{}}}\n  </script>\n</div>\n`````\n:::\n:::\n\n\n## Tokenization\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntext_df %>%\n  unnest_tokens(word, text)\n```\n\n::: {.cell-output-display}\n`````{=html}\n<div data-pagedtable=\"false\">\n  <script data-pagedtable-source type=\"application/json\">\n{\"columns\":[{\"label\":[\"line\"],\"name\":[1],\"type\":[\"int\"],\"align\":[\"right\"]},{\"label\":[\"word\"],\"name\":[2],\"type\":[\"chr\"],\"align\":[\"left\"]}],\"data\":[{\"1\":\"1\",\"2\":\"because\"},{\"1\":\"1\",\"2\":\"i\"},{\"1\":\"1\",\"2\":\"could\"},{\"1\":\"1\",\"2\":\"not\"},{\"1\":\"1\",\"2\":\"stop\"},{\"1\":\"1\",\"2\":\"for\"},{\"1\":\"1\",\"2\":\"death\"},{\"1\":\"2\",\"2\":\"he\"},{\"1\":\"2\",\"2\":\"kindly\"},{\"1\":\"2\",\"2\":\"stopped\"},{\"1\":\"2\",\"2\":\"for\"},{\"1\":\"2\",\"2\":\"me\"},{\"1\":\"3\",\"2\":\"the\"},{\"1\":\"3\",\"2\":\"carriage\"},{\"1\":\"3\",\"2\":\"held\"},{\"1\":\"3\",\"2\":\"but\"},{\"1\":\"3\",\"2\":\"just\"},{\"1\":\"3\",\"2\":\"ourselves\"},{\"1\":\"4\",\"2\":\"and\"},{\"1\":\"4\",\"2\":\"immortality\"}],\"options\":{\"columns\":{\"min\":{},\"max\":[10]},\"rows\":{\"min\":[10],\"max\":[10]},\"pages\":{}}}\n  </script>\n</div>\n`````\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-in-header": [
+        "<link href=\"00_tokenization_files/libs/pagedtable-1.1/css/pagedtable.css\" rel=\"stylesheet\" />\n<script src=\"00_tokenization_files/libs/pagedtable-1.1/js/pagedtable.js\"></script>\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

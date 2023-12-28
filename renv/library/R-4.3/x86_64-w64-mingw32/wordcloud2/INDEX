@@ -1,0 +1,8 @@
++.wordcloud2            Change the themes of wordcloud2
+WCtheme                 Change the themes of wordcloud2
+demoFreq                Demo dataset with Words and Frequency
+demoFreqC               Demo dataset with Chinese character Words and
+                        Frequency
+letterCloud             Create wordcloud with the shape of a word
+wordcloud2              Create wordcloud by wordcloud2.js
+wordcloud2-shiny        Plot wordcloud2 in shiny

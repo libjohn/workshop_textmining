@@ -1,0 +1,16 @@
+cache_info              List folders and their sizes in cache
+catalogue               Catalogue of all available data sources
+dataset_ag_news         AG's News Topic Classification Dataset
+dataset_dbpedia         DBpedia Ontology Dataset
+dataset_imdb            IMDB Large Movie Review Dataset
+dataset_sentence_polarity
+                        v1.0 sentence polarity dataset
+dataset_trec            TREC dataset
+embedding_glove         Global Vectors for Word Representation
+lexicon_afinn           AFINN-111 dataset
+lexicon_bing            Bing sentiment lexicon
+lexicon_loughran        Loughran-McDonald sentiment lexicon
+lexicon_nrc             NRC word-emotion association lexicon
+lexicon_nrc_eil         NRC Emotion Intensity Lexicon (aka Affect
+                        Intensity Lexicon) v0.5
+lexicon_nrc_vad         The NRC Valence, Arousal, and Dominance Lexicon

@@ -1,0 +1,9 @@
++.wordcloud2	plus-.wordcloud2
+demoFreq	demoFreq
+demoFreqC	demoFreqC
+letterCloud	letterCloud
+renderWordcloud2	wordcloud2-shiny
+WCtheme	WCtheme
+wordcloud2	wordcloud2
+wordcloud2-shiny	wordcloud2-shiny
+wordcloud2Output	wordcloud2-shiny

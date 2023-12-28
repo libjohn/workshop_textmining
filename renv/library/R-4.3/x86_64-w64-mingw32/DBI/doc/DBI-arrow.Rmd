@@ -1,0 +1,145 @@
+---
+title: "Using DBI with Arrow"
+author: "Kirill Müller"
+date: "29/09/2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using DBI with Arrow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(error = Sys.getenv("IN_PKGDOWN") != "true" || (getRversion() < "3.5"))
+
+knit_print.data.frame <- function(x, ...) {
+  print(head(x, 6))
+  if (nrow(x) > 6) {
+    cat("Showing 6 out of", nrow(x), "rows.\n")
+  }
+  invisible(x)
+}
+
+registerS3method("knit_print", "data.frame", "knit_print.data.frame")
+```
+
+## Who this tutorial is for
+
+This tutorial is for you if you want to leverage [Apache Arrow](https://arrow.apache.org/) for accessing and manipulating data on databases.
+See `vignette("DBI", package = "DBI")` and `vignette("DBI", package = "DBI-advanced")` for tutorials on accessing data using R's data frames instead of Arrow's structures.
+
+## Rationale
+
+Apache Arrow is
+
+> a cross-language development platform for in-memory analytics.
+
+- suitable for large and huge data, also out-of-memory
+- data exchange format, good support for data types used in SQL databases
+- new extension points to allow backends (currently DuckDB and adbc) to make use of the data exchange format
+- faster data retrieval and loading, by avoiding serialization in some cases
+- better support for reading and summarizing data from a database that is larger than memory
+- better type fidelity with workflows centered around Arrow
+- fundamental data structure: `arrow::RecordBatchReader`
+
+## New classes and generics
+
+- Zero chance of interfering with existing DBI backends
+- Fully functional fallback implementation for all existing DBI backends
+- Requires {arrow} R package
+
+- New generics:
+    - `dbReadTableArrow()`
+    - `dbCreateTableArrow()`
+    - `dbAppendTableArrow()`
+    - `dbGetQueryArrow()`
+    - `dbSendQueryArrow()`
+    - `dbFetchArrow()`
+    - `dbFetchArrowChunk()`
+    - `dbWriteTableArrow()`
+
+- New classes:
+    - `DBIResultArrow`
+    - `DBIResultArrowDefault`
+
+## Prepare
+
+```{r}
+library(DBI)
+
+con <- dbConnect(RSQLite::SQLite())
+
+data <- data.frame(
+  a = 1:3,
+  b = 4.5,
+  c = "five"
+)
+
+dbWriteTable(con, "tbl", data)
+```
+
+## Read all rows from a table
+
+```{r}
+dbReadTableArrow(con, "tbl")
+as.data.frame(dbReadTableArrow(con, "tbl"))
+```
+
+## Run queries
+
+```{r}
+stream <- dbGetQueryArrow(con, "SELECT COUNT(*) FROM tbl WHERE a < 3")
+stream
+as.data.frame(stream)
+```
+
+## Process data piecemeal
+
+```{r}
+stream <- dbGetQueryArrow(con, "SELECT * FROM tbl WHERE a < 3")
+stream
+stream$get_next()
+stream$get_next()
+```
+
+## Prepared queries
+
+```{r}
+in_arrow <- nanoarrow::as_nanoarrow_array(data.frame(a = 1:4))
+stream <- dbGetQueryArrow(con, "SELECT $a AS batch, * FROM tbl WHERE a < $a", param = in_arrow)
+as.data.frame(stream)
+```
+
+## Writing data
+
+```{r}
+stream <- dbGetQueryArrow(con, "SELECT * FROM tbl WHERE a < 3")
+dbWriteTableArrow(con, "tbl_new", stream)
+dbReadTable(con, "tbl_new")
+```
+
+## Appending data
+
+```{r}
+stream <- dbGetQueryArrow(con, "SELECT * FROM tbl WHERE a < 3")
+dbCreateTableArrow(con, "tbl_split", stream)
+dbAppendTableArrow(con, "tbl_split", stream)
+stream <- dbGetQueryArrow(con, "SELECT * FROM tbl WHERE a >= 3")
+dbAppendTableArrow(con, "tbl_split", stream)
+dbReadTable(con, "tbl_split")
+```
+
+As usual, do not forget to disconnect from the database when done.
+
+```{r}
+dbDisconnect(con)
+```
+
+## Conclusion
+
+That concludes the major features of DBI.
+For more details on the library functions covered in this tutorial see the DBI specification at `vignette("spec", package = "DBI")`.
+
+- See arrow package for further processing

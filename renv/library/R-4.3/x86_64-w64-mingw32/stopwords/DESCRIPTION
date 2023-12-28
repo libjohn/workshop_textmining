@@ -1,0 +1,27 @@
+Package: stopwords
+Type: Package
+Title: Multilingual Stopword Lists
+Version: 2.3
+Authors@R: c(person("Kenneth", "Benoit", email = "kbenoit@lse.ac.uk", role = c("aut", "cre")),
+    person("David", "Muhr", email = "muhrdavid+github@gmail.com", role = "aut"), 
+    person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = "aut"))
+Description: Provides multiple sources of stopwords, for use in text analysis and natural language processing.
+License: MIT + file LICENSE
+Depends: R (>= 2.10)
+Imports: ISOcodes
+Suggests: covr, quanteda, spelling, testthat
+URL: https://github.com/quanteda/stopwords
+BugReports: https://github.com/quanteda/stopwords/issues
+Encoding: UTF-8
+LazyData: true
+Language: en-GB
+RoxygenNote: 7.1.1
+NeedsCompilation: no
+Packaged: 2021-10-28 10:59:10 UTC; kbenoit
+Author: Kenneth Benoit [aut, cre],
+  David Muhr [aut],
+  Kohei Watanabe [aut]
+Maintainer: Kenneth Benoit <kbenoit@lse.ac.uk>
+Repository: CRAN
+Date/Publication: 2021-10-28 11:20:02 UTC
+Built: R 4.3.2; ; 2023-12-24 01:52:55 UTC; windows
