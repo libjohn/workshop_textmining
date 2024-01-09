@@ -11,4 +11,6 @@
 *.cpp linguist-detectable=false
 *.c linguist-detectable=false
 Makefile linguist-detectable=false
+GNUmakefile linguist-detectable=false
 *.tex linguist-detectable=false
+*.sty linguist-detectable=false
