@@ -1,3 +1,4 @@
+*.qmd linguist-language=R
 *.Rmd linguist-language=R
 *.R linguist-language=R
 *.html linguist-documentation
